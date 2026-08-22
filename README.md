@@ -36,6 +36,43 @@ All coding will be generated using Codex.
 
 
 
+# Notes:
+I attempted to push my changes up to GitHub and was presented with this error:
+
+> Your remote uses HTTPS, so the simplest route is GitHub CLI authentication:
+> gh auth login
+> Choose:
+> 1. GitHub.com
+> 2. HTTPS
+> 3. Login with a web browser
+> 4. Confirm Yes when asked to authenticate Git for this account.
+> Finish the browser sign-in, then verify and push:
+> gh auth status
+> git push origin main
+> If gh isn’t installed, install GitHub CLI first (on macOS: brew install gh) or > use a GitHub personal access token when Git prompts for a password—GitHub no longer accepts account passwords for Git over HTTPS. GitHub’s authentication guidance
+
+I did not have GitHub CLI so I opened a terminal and entered:
+```
+brew install gh
+```
+
+I then typed in the command below And followed the prompts.
+```
+gh auth login
+```
+
+
+
+
+
+
+
+
+
+
+
+
+---
 # Works Cited:
 “Arduino Software.” _Arduino_, [https://www.arduino.cc/en/software](https://www.arduino.cc/en/software). Accessed 22 Aug. 2026.
 
