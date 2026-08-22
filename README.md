@@ -1,36 +1,51 @@
-# Sonar Emulator
 
-A Wemos D1 Mini sweeps an HC-SR04 ultrasonic sensor with an SG90 servo and sends each reading over USB serial. `sonar_emulator.py` automatically selects the first detected Arduino-compatible USB serial port and renders the readings as a radar display.
+# Goal:
 
-## Wiring
+Create a "Sonar Emulator" with the information presented in the form of a "radar" screen.
+All coding will be generated using Codex.
 
-| Module | Wemos D1 Mini pin | Notes |
-| --- | --- | --- |
-| HC-SR04 TRIG | D5 (GPIO14) | Direct connection |
-| HC-SR04 ECHO | D6 (GPIO12) | **Use a 5 V-to-3.3 V voltage divider or logic level shifter.** |
-| SG90 signal | D7 (GPIO13) | Servo control signal |
-| All grounds | GND | Must share a common ground |
-| HC-SR04 VCC | 5V | Sensor supply |
-| SG90 VCC | External regulated 5 V | Do not power the servo from the Wemos USB/3.3 V rail. Connect its ground to Wemos GND. |
+![](images/Sonar%20Emulator.png)
 
-## Upload and run
+# Software:
+- [Arduino IDE](https://www.arduino.cc/en/software/)
+	- "The Arduino IDE is a free, open-source program for writing code (“sketches”), checking it for errors, and uploading it to an Arduino boards."
+	- For this project we need to configure the IDE for an ESP8266.  Instructions can be found in the [ESP8266 Core Documentation](https://arduino-esp8266.readthedocs.io/en/latest/installing.html)
+	
+- [Thonny](https://thonny.org/)
+	- Thonny is a beginner-friendly app for writing and running Python code.
 
-1. In the Arduino IDE, install the ESP8266 board package and select **LOLIN(WEMOS) D1 R2 & mini**.
-2. Open and upload [`WemosSonar/WemosSonar.ino`](WemosSonar/WemosSonar.ino). Close the Arduino Serial Monitor afterwards; it cannot share the port with the radar app.
-3. On the computer, install the Python dependency:
+- [Codex by ChatGPT](https://chatgpt.com/codex/?utm_source=google&utm_medium=paid_search&c_id=23226110534&c_agid=194939268903&c_crid=807810285009&c_kwid=kwd-827611117561&c_ims=&c_pms=9016357&c_nw=g&c_dvc=c&gad_source=1&gad_campaignid=23226110534&gbraid=0AAAAA-I0E5f7W5mTFuf6gr5LX9oKT2n66&gclid=CjwKCAjwkaXUBhASEiwAZI3ds9iR6Z_cTBhbpIHWuGR-XCghlkN1L37nnO0KQ0bv7Ey1-0yHv3DdmBoCnoEQAvD_BwE)
+	- OpenAI's AI coding agent built into ChatGPT. It's designed specifically to help with software development (OpenAI)
+		- Downloaded and install.
+		- You will be prompted to create an account.  I chose the free level.
+- [Github](https://github.com/)
+	- GitHub is an online platform for storing, sharing, and collaborating on software projects.
+		- While technically not needed, using it is considered best practice.
+		- You will need to create an account.
+# Hardware:
+- [D1 Mini development board](https://a.co/d/0girjbaG)
+- [HC-SR04 Ultrasonic Module Distance Sensor](https://a.co/d/0bF3r0CX)
+- [Sg90 9g Micro Servo Motor](https://a.co/d/08NuCzbu) 
+- [Solderless breadboard](https://a.co/d/0ajafzjM)
+- [Jumper Wires](https://a.co/d/02a42jzD)
+	- You will need both (male to male) and (male to female) jumpers.
 
-   ```sh
-   python3 -m pip install -r requirements.txt
-   ```
 
-4. Start the display:
+# Wiring:
+![](images/Wiring%20Diagram.png)
 
-   ```sh
-   python3 sonar_emulator.py
-   ```
 
-The sketch emits `angle,distance_cm` lines at 115200 baud. The display supports measurements from 0–200 cm and scans from 15° to 165°.
 
-## Port selection
+# Works Cited:
+“Arduino Software.” _Arduino_, [https://www.arduino.cc/en/software](https://www.arduino.cc/en/software). Accessed 22 Aug. 2026.
 
-The app examines USB serial ports in the order reported by the operating system. It accepts Arduino VID/PIDs and typical clone interfaces (CH340, CP210x, FTDI, Wemos, and matching descriptions), then connects to the first match. If it cannot find one, connect the board by USB and restart the program.
+“What Is GitHub?” _GitHub Docs_, GitHub, [https://docs.github.com/en/get-started/start-your-journey/what-is-github](https://docs.github.com/en/get-started/start-your-journey/what-is-github). Accessed 22 Aug. 2026.
+
+*OpenAI*. “Codex.” _OpenAI_, [https://openai.com/codex/](https://openai.com/codex/). Accessed 22 Aug. 2026.
+_Thonny: Python IDE for Beginners._ Thonny, [https://thonny.org/](https://thonny.org/). Accessed 22 Aug. 2026.
+
+“Installing.” _ESP8266 Arduino Core Documentation_, [https://arduino-esp8266.readthedocs.io/en/latest/installing.html](https://arduino-esp8266.readthedocs.io/en/latest/installing.html). Accessed 22 Aug. 2026.
+
+
+
+
