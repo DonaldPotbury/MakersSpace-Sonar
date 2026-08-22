@@ -2,6 +2,7 @@
 
 ## 2026-08-22
 
+- Updated the HC-SR04 wiring: trigger is D7 and echo is D6.
 - Moved `sonar_emulator.py` into `Sonar_Emulator` for direct execution.
 - Updated Wemos wiring assignments: SG90 signal on D5, HC-SR04 trigger on D6, and HC-SR04 echo on D7.
 - Updated the README with project setup, hardware, wiring, and citation information; added the sonar and wiring diagrams to `images`.
