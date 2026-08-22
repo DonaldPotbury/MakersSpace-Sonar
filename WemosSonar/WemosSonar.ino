@@ -7,9 +7,9 @@
 
 #include <Servo.h>
 
-const uint8_t TRIGGER_PIN = D5;
-const uint8_t ECHO_PIN = D6;
-const uint8_t SERVO_PIN = D7;
+const uint8_t TRIGGER_PIN = D6;
+const uint8_t ECHO_PIN = D7;
+const uint8_t SERVO_PIN = D5;
 const int MIN_ANGLE = 15;
 const int MAX_ANGLE = 165;
 const int STEP_DEGREES = 2;
