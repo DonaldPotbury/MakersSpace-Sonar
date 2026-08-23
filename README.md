@@ -6,6 +6,12 @@ All coding will be generated using Codex.
 
 ![](images/Sonar%20Emulator.png)
 
+
+
+https://github.com/user-attachments/assets/68c25bc0-03aa-44c8-bcdc-1fe7296ce81b
+
+
+
 # Software:
 - [Arduino IDE](https://www.arduino.cc/en/software/)
 	- "The Arduino IDE is a free, open-source program for writing code (“sketches”), checking it for errors, and uploading it to an Arduino boards."
