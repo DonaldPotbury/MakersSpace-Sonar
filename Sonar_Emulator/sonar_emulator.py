@@ -22,7 +22,9 @@ except ImportError:
 
 
 BAUD_RATE = 115200
-MAX_DISTANCE_CM = 200
+SENSOR_MAX_DISTANCE_CM = 200
+MIN_DISPLAY_RANGE_CM = 25
+DEFAULT_DISPLAY_RANGE_CM = SENSOR_MAX_DISTANCE_CM
 SCAN_ANGLES = range(15, 166, 2)
 RADAR_GREEN = "#38ff75"
 BACKGROUND = "#031007"
@@ -76,7 +78,7 @@ class SerialReader(threading.Thread):
                 if not match:
                     continue
                 angle, distance = map(int, match.groups())
-                if 0 <= angle <= 180 and 0 <= distance <= MAX_DISTANCE_CM:
+                if 0 <= angle <= 180 and 0 <= distance <= SENSOR_MAX_DISTANCE_CM:
                     self.output.put(Measurement(angle, distance))
         except Exception as error:  # Report connection failures to the UI thread.
             self.output.put(error)
@@ -94,8 +96,31 @@ class SonarEmulator:
         self.root.title("Sonar Emulator")
         self.root.configure(bg=BACKGROUND)
         self.root.resizable(False, False)
-        self.canvas = tk.Canvas(root, width=760, height=470, bg=BACKGROUND, highlightthickness=0)
-        self.canvas.pack(padx=12, pady=(12, 4))
+        self.max_distance_cm = DEFAULT_DISPLAY_RANGE_CM
+        display = tk.Frame(root, bg=BACKGROUND)
+        display.pack(padx=12, pady=(12, 4))
+        self.canvas = tk.Canvas(display, width=760, height=470, bg=BACKGROUND, highlightthickness=0)
+        self.canvas.pack(side="left")
+        slider_frame = tk.Frame(display, bg=BACKGROUND)
+        slider_frame.pack(side="left", fill="y", padx=(8, 0))
+        tk.Label(slider_frame, text="RANGE\n(cm)", bg=BACKGROUND, fg=RADAR_GREEN,
+                 font=("Arial", 10, "bold"), justify="center").pack(pady=(6, 0))
+        self.range_slider = tk.Scale(
+            slider_frame,
+            from_=SENSOR_MAX_DISTANCE_CM,
+            to=MIN_DISPLAY_RANGE_CM,
+            orient="vertical",
+            length=350,
+            resolution=5,
+            command=self.set_display_range,
+            bg=BACKGROUND,
+            fg=RADAR_GREEN,
+            troughcolor="#197a3c",
+            activebackground=RADAR_GREEN,
+            highlightthickness=0,
+        )
+        self.range_slider.set(self.max_distance_cm)
+        self.range_slider.pack(fill="y", expand=True)
         self.status = tk.StringVar(value=f"Connected: {port}  |  Waiting for sensor data...")
         tk.Label(root, textvariable=self.status, bg=BACKGROUND, fg=RADAR_GREEN,
                  font=("Arial", 11)).pack(pady=(0, 10))
@@ -116,26 +141,31 @@ class SonarEmulator:
             r = radius * fraction
             self.canvas.create_arc(center_x - r, center_y - r, center_x + r, center_y + r,
                                    start=0, extent=180, outline="#197a3c", width=1)
-            self.canvas.create_text(center_x + 8, center_y - r, text=f"{int(MAX_DISTANCE_CM * fraction)} cm",
+            self.canvas.create_text(center_x + 8, center_y - r, text=f"{int(self.max_distance_cm * fraction)} cm",
                                     anchor="w", fill="#4fae68", font=("Arial", 9))
         for angle in (15, 45, 75, 90, 105, 135, 165):
-            x, y = self.position(angle, MAX_DISTANCE_CM)
+            x, y = self.position(angle, self.max_distance_cm)
             self.canvas.create_line(center_x, center_y, x, y, fill="#197a3c")
         self.canvas.create_text(16, 16, text="SONAR EMULATOR", anchor="nw", fill=RADAR_GREEN,
                                 font=("Arial", 16, "bold"))
         self.canvas.create_text(744, 16, text="15° — 165°", anchor="ne", fill="#4fae68", font=("Arial", 10))
 
         for angle, distance in self.points.items():
-            if distance < MAX_DISTANCE_CM:
+            if distance < self.max_distance_cm:
                 x, y = self.position(angle, distance)
                 self.canvas.create_oval(x - 4, y - 4, x + 4, y + 4, fill="#ff5454", outline="")
-        sweep_x, sweep_y = self.position(self.last_angle, MAX_DISTANCE_CM)
+        sweep_x, sweep_y = self.position(self.last_angle, self.max_distance_cm)
         self.canvas.create_line(center_x, center_y, sweep_x, sweep_y, fill=RADAR_GREEN, width=2)
 
     def position(self, angle: int, distance: float) -> tuple[float, float]:
         radians = math.radians(angle)
-        scale = 390 / MAX_DISTANCE_CM
+        scale = 390 / self.max_distance_cm
         return 380 + distance * scale * math.cos(radians), 430 - distance * scale * math.sin(radians)
+
+    def set_display_range(self, value: str) -> None:
+        """Apply a new maximum display range from the vertical range slider."""
+        self.max_distance_cm = int(float(value))
+        self.draw_radar()
 
     def consume_messages(self) -> None:
         redraw = False

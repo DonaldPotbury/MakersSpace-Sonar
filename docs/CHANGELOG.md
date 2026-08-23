@@ -2,6 +2,7 @@
 
 ## 2026-08-22
 
+- Added a vertical range slider to the Python radar display; it redraws the view for a selected 25–200 cm maximum range.
 - Updated the HC-SR04 wiring: trigger is D7 and echo is D6.
 - Moved `sonar_emulator.py` into `Sonar_Emulator` for direct execution.
 - Updated Wemos wiring assignments: SG90 signal on D5, HC-SR04 trigger on D6, and HC-SR04 echo on D7.
