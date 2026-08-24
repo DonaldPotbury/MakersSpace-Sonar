@@ -6,7 +6,7 @@ All coding will be generated using Codex.
 
 ![](images/Sonar%20Emulator.png)
 
-
+<video src="https://github.com/user-attachments/assets/68c25bc0-03aa-44c8-bcdc-1fe7296ce81b" width="100%" controls autoplay loop muted></video>
 
 https://github.com/user-attachments/assets/68c25bc0-03aa-44c8-bcdc-1fe7296ce81b
 
