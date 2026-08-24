@@ -6,7 +6,12 @@ All coding will be generated using Codex.
 
 ![](images/Sonar%20Emulator.png)
 
+
+
+
+
 # Software:
+
 - [Arduino IDE](https://www.arduino.cc/en/software/)
 	- "The Arduino IDE is a free, open-source program for writing code (“sketches”), checking it for errors, and uploading it to an Arduino boards."
 	- For this project we need to configure the IDE for an ESP8266.  Instructions can be found in the [ESP8266 Core Documentation](https://arduino-esp8266.readthedocs.io/en/latest/installing.html)
@@ -29,6 +34,18 @@ All coding will be generated using Codex.
 - [Solderless breadboard](https://a.co/d/0ajafzjM)
 - [Jumper Wires](https://a.co/d/02a42jzD)
 	- You will need both (male to male) and (male to female) jumpers.
+
+
+
+# 3D Printed Parts:
+
+https://makerworld.com/en/models/3213247-radar-sonar-emulator
+
+![Sonar Emulator Mount 1](/Users/donpotbury/Documents/GitHub/MakersSpace-Sonar/images/Sonar Emulator Mount 1.png)
+
+
+
+
 
 
 # Wiring:
@@ -82,7 +99,6 @@ gh auth login
 _Thonny: Python IDE for Beginners._ Thonny, [https://thonny.org/](https://thonny.org/). Accessed 22 Aug. 2026.
 
 “Installing.” _ESP8266 Arduino Core Documentation_, [https://arduino-esp8266.readthedocs.io/en/latest/installing.html](https://arduino-esp8266.readthedocs.io/en/latest/installing.html). Accessed 22 Aug. 2026.
-
 
 
 
