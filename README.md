@@ -14,7 +14,8 @@ All coding will be generated using Codex.
 
 - [Arduino IDE](https://www.arduino.cc/en/software/)
 	- "The Arduino IDE is a free, open-source program for writing code (“sketches”), checking it for errors, and uploading it to an Arduino boards."
-	- For this project we need to configure the IDE for an ESP8266.  Instructions can be found in the [ESP8266 Core Documentation](https://arduino-esp8266.readthedocs.io/en/latest/installing.html)
+	- For this project we need to configure the IDE for an ESP8266.  Instructions can be found here...
+	  https://www.youtube.com/watch?v=UUQ84VKg3oM
 	
 - [Thonny](https://thonny.org/)
 	- Thonny is a beginner-friendly app for writing and running Python code.
@@ -54,35 +55,53 @@ https://makerworld.com/en/models/3213247-radar-sonar-emulator
 
 
 # Notes:
-I attempted to push my changes up to GitHub and was presented with this error:
-
-> Your remote uses HTTPS, so the simplest route is GitHub CLI authentication:
+> [!NOTE]
+>
+> I attempted to push my changes up to GitHub and was presented with this error:
+>
+>  Your remote uses HTTPS, so the simplest route is GitHub CLI authentication:
+>  gh auth login
+>  Choose:
+>
+>   1. GitHub.com
+>   2. HTTPS
+>   3. Login with a web browser
+>   4. Confirm Yes when asked to authenticate Git for this account.
+>      Finish the browser sign-in, then verify and push:
+>       gh auth status
+>       git push origin main
+>       If gh isn’t installed, install GitHub CLI first (on macOS: brew install gh) or > use a GitHub personal access token when Git prompts for a password—GitHub no longer accepts account passwords for Git over HTTPS. GitHub’s authentication guidance
+>
+> I did not have GitHub CLI so I opened a terminal and entered:
+>
+> ```
+> brew install gh
+> ```
+>
+> I then typed in the command below And followed the prompts.
+>
+> ```
 > gh auth login
-> Choose:
-> 1. GitHub.com
-> 2. HTTPS
-> 3. Login with a web browser
-> 4. Confirm Yes when asked to authenticate Git for this account.
-> Finish the browser sign-in, then verify and push:
-> gh auth status
-> git push origin main
-> If gh isn’t installed, install GitHub CLI first (on macOS: brew install gh) or > use a GitHub personal access token when Git prompts for a password—GitHub no longer accepts account passwords for Git over HTTPS. GitHub’s authentication guidance
+> ```
+>
 
-I did not have GitHub CLI so I opened a terminal and entered:
-```
-brew install gh
-```
+---
 
-I then typed in the command below And followed the prompts.
-```
-gh auth login
-```
-
-
-
-
-
-
+> [!NOTE]
+>
+> When trying to flash the WeMos D! Mini on a Windows PC the following error occurred.
+>
+> *A serial exception error occurred: Cannot configure port, something went wrong. Original message: PermissionError(13, 'A device attached to the system is not functioning.',*
+>
+> This video explained how to fix: https://youtu.be/te9oqPq3Ems
+>
+> The description on the video has some links
+>
+> ---
+>
+> This video talks about installing the driver on Windows 11 https://youtu.be/UUQ84VKg3oM
+>
+> Be sure to download the driver from the WCH website.  https://www.wch-ic.com/downloads/CH341SER_ZIP.html
 
 
 
@@ -99,6 +118,8 @@ gh auth login
 _Thonny: Python IDE for Beginners._ Thonny, [https://thonny.org/](https://thonny.org/). Accessed 22 Aug. 2026.
 
 “Installing.” _ESP8266 Arduino Core Documentation_, [https://arduino-esp8266.readthedocs.io/en/latest/installing.html](https://arduino-esp8266.readthedocs.io/en/latest/installing.html). Accessed 22 Aug. 2026.
+
+Santos, Rui. “Installing ESP8266 Board in Arduino IDE (Windows, Mac OS X, Linux).” *Random Nerd Tutorials*, Random Nerd Tutorials. [https://randomnerdtutorials.com/how-to-install-esp8266-board-arduino-ide/](https://randomnerdtutorials.com/how-to-install-esp8266-board-arduino-ide/?utm_source=chatgpt.com)
 
 
 
