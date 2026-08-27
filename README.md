@@ -48,9 +48,21 @@ https://makerworld.com/en/models/3213247-radar-sonar-emulator
 
 
 
-
 # Wiring:
-![](images/Wiring%20Diagram.png)
+
+| WeMos D1 Mini | HC-SR04 | Servo                |
+| ------------- | ------- | -------------------- |
+| GND           | GND     | GND (black wire)     |
+| VBUS          | Vcc     | Power (red wire)     |
+| GPIO 13       | Trig    |                      |
+| GPIO 12       | Echo    |                      |
+| GPIO 14       |         | Signal (yellow wire) |
+
+
+
+
+
+
 
 
 
@@ -85,27 +97,20 @@ https://makerworld.com/en/models/3213247-radar-sonar-emulator
 > ```
 >
 
----
+
 
 > [!NOTE]
->
-> When trying to flash the WeMos D! Mini on a Windows PC the following error occurred.
+> When trying to flash the WeMos D1 Mini on a Windows !! PC the following error occurred.
 >
 > *A serial exception error occurred: Cannot configure port, something went wrong. Original message: PermissionError(13, 'A device attached to the system is not functioning.',*
 >
-> This video explained how to fix: https://youtu.be/te9oqPq3Ems
+> After much searching the problem seemed to be caused by the newest driver for CH340 USB to Serial chip.  The most prevalent solution was to roll back the driver to the previous version.  The problem with this was this "Fix" might have to be re-applied after a Windows Update.  Another solution proposed was to change the properties of the driver of the driver to "Enable the Serial Port Enumerator".  See https://www.youtube.com/watch?v=M6oq3dl5gBQ.  This simply did not work in our case.
 >
-> The description on the video has some links
->
-> ---
->
-> This video talks about installing the driver on Windows 11 https://youtu.be/UUQ84VKg3oM
->
-> Be sure to download the driver from the WCH website.  https://www.wch-ic.com/downloads/CH341SER_ZIP.html
+> Brian Witt wrote an article about "Fake CH340 Chips" https://www.digitaltown.co.uk/66FakeCH340Chips.php.  He pointed out the differences between a genuine CH340 chip which had clear markings on top and the "fake" chip which has no markings.  Had D1 minis in both configurations.   The genuine CH340 worked with the latest driver and the fake one did not.
 
+<img src="/Users/donpotbury/Documents/GitHub/MakersSpace-Sonar/images/WeMos D1 Mini.png" alt="WeMos D1 Mini" style="zoom:50%;" />
 
-
-
+<img src="/Users/donpotbury/Documents/GitHub/MakersSpace-Sonar/images/WeMos D1 Mini Pinout.png" alt="image-20260826033556085" style="zoom:50%;" />
 
 
 ---
@@ -120,6 +125,10 @@ _Thonny: Python IDE for Beginners._ Thonny, [https://thonny.org/](https://thonny
 “Installing.” _ESP8266 Arduino Core Documentation_, [https://arduino-esp8266.readthedocs.io/en/latest/installing.html](https://arduino-esp8266.readthedocs.io/en/latest/installing.html). Accessed 22 Aug. 2026.
 
 Santos, Rui. “Installing ESP8266 Board in Arduino IDE (Windows, Mac OS X, Linux).” *Random Nerd Tutorials*, Random Nerd Tutorials. [https://randomnerdtutorials.com/how-to-install-esp8266-board-arduino-ide/](https://randomnerdtutorials.com/how-to-install-esp8266-board-arduino-ide/?utm_source=chatgpt.com)
+
+Witt, Brian. “Fake CH340 Chips.” *Digital Town*, https://www.digitaltown.co.uk/66FakeCH340Chips.php. Accessed 26 Aug. 2026.
+
+Random Nerd Tutorials. “ESP8266 Pinout Reference: Which GPIO Pins Should You Use?” *Random Nerd Tutorials*, https://randomnerdtutorials.com/esp8266-pinout-reference-gpios/. Accessed 26 Aug. 2026.
 
 
 
