@@ -29,12 +29,12 @@ All coding will be generated using Codex.
 		- While technically not needed, using it is considered best practice.
 		- You will need to create an account.
 # Hardware:
-- [D1 Mini development board](https://a.co/d/0girjbaG)
+- [WeMos D1 Mini](https://www.amazon.com/dp/B0CL9CTXZH?ref=ppx_yo2ov_dt_b_fed_asin_title&th=1)
 - [HC-SR04 Ultrasonic Module Distance Sensor](https://a.co/d/0bF3r0CX)
 - [Sg90 9g Micro Servo Motor](https://a.co/d/08NuCzbu) 
 - [Solderless breadboard](https://a.co/d/0ajafzjM)
 - [Jumper Wires](https://a.co/d/02a42jzD)
-	- You will need both (male to male) and (male to female) jumpers.
+  - You will need both (male to male) and (male to female) jumpers.
 
 
 
@@ -60,7 +60,11 @@ https://makerworld.com/en/models/3213247-radar-sonar-emulator
 
 
 
+<img src="/Users/donpotbury/Documents/GitHub/MakersSpace-Sonar/images/Wiring Diagram 2.png" alt="Wiring Diagram 2" style="zoom:80%;" />
 
+
+
+<img src="/Users/donpotbury/Documents/GitHub/MakersSpace-Sonar/images/WeMos D1 Mini Pinout.png" alt="image-20260826033556085" style="zoom:50%;" />
 
 
 
@@ -110,7 +114,7 @@ https://makerworld.com/en/models/3213247-radar-sonar-emulator
 
 <img src="/Users/donpotbury/Documents/GitHub/MakersSpace-Sonar/images/WeMos D1 Mini.png" alt="WeMos D1 Mini" style="zoom:50%;" />
 
-<img src="/Users/donpotbury/Documents/GitHub/MakersSpace-Sonar/images/WeMos D1 Mini Pinout.png" alt="image-20260826033556085" style="zoom:50%;" />
+
 
 
 ---
