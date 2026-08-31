@@ -54,17 +54,17 @@ https://makerworld.com/en/models/3213247-radar-sonar-emulator
 | ------------- | ------- | -------------------- |
 | GND           | GND     | GND (black wire)     |
 | VBUS          | Vcc     | Power (red wire)     |
-| GPIO 13       | Trig    |                      |
-| GPIO 12       | Echo    |                      |
-| GPIO 14       |         | Signal (yellow wire) |
+| D7 (GPIO13)   | Trig    |                      |
+| D6 (GPIO12)   | Echo    |                      |
+| D5 (GPIO14)   |         | Signal (yellow wire) |
 
 
 
-<img src="/Users/donpotbury/Documents/GitHub/MakersSpace-Sonar/images/Wiring Diagram 2.png" alt="Wiring Diagram 2" style="zoom:80%;" />
+##### ![Wiring Diagram](/Users/donpotbury/Documents/GitHub/MakersSpace-Sonar/images/Wiring Diagram.png)
 
 
 
-<img src="/Users/donpotbury/Documents/GitHub/MakersSpace-Sonar/images/WeMos D1 Mini Pinout.png" alt="image-20260826033556085" style="zoom:50%;" />
+![WeMos-D1-Mini-Pinout](/Users/donpotbury/Documents/GitHub/MakersSpace-Sonar/images/WeMos-D1-Mini-Pinout.png)
 
 
 
@@ -133,6 +133,8 @@ Santos, Rui. “Installing ESP8266 Board in Arduino IDE (Windows, Mac OS X, Linu
 Witt, Brian. “Fake CH340 Chips.” *Digital Town*, https://www.digitaltown.co.uk/66FakeCH340Chips.php. Accessed 26 Aug. 2026.
 
 Random Nerd Tutorials. “ESP8266 Pinout Reference: Which GPIO Pins Should You Use?” *Random Nerd Tutorials*, https://randomnerdtutorials.com/esp8266-pinout-reference-gpios/. Accessed 26 Aug. 2026.
+
+Prabhu, Shreepad. "WeMos D1 Mini Pinout Reference." *Last Minute Engineers, https://lastminuteengineers.com/wemos-d1-mini-pinout-reference/.  Accessed 31 Aug. 2026
 
 
 
