@@ -46,17 +46,19 @@ https://makerworld.com/en/models/3213247-radar-sonar-emulator
 
 
 
-![Sonar Emulator Mount 1](/Users/donpotbury/Documents/GitHub/MakersSpace-Sonar/images/Sonar Emulator Mount 1.png)
+![](images/Sonar%20Emulator%20Mount%201.png)
 
 
 
 # Pinouts:
 
-![WeMos-D1-Mini-Pinout](/Users/donpotbury/Documents/GitHub/MakersSpace-Sonar/images/WeMos-D1-Mini-Pinout.png)
+![](images/WeMos-D1-Mini-Pinout.png)
 
 
 
-![HD-SR04 Pinout](/Users/donpotbury/Documents/GitHub/MakersSpace-Sonar/images/HD-SR04 Pinout.jpeg)
+
+
+![](images/HD-SR04%20Pinout.jpeg)
 
 
 
@@ -74,7 +76,7 @@ https://makerworld.com/en/models/3213247-radar-sonar-emulator
 
 
 
-##### ![Wiring Diagram](/Users/donpotbury/Documents/GitHub/MakersSpace-Sonar/images/Wiring Diagram.png)
+##### ![](images/Wiring%20Diagram.png)
 
 
 
@@ -167,7 +169,7 @@ I would like a vertical slider bar in the python script.  Moving it will change 
 >
 > Brian Witt wrote an article about "Fake CH340 Chips" https://www.digitaltown.co.uk/66FakeCH340Chips.php.  He pointed out the differences between a genuine CH340 chip which had clear markings on top and the "fake" chip which has no markings.  Had D1 minis in both configurations.   The genuine WCH CH340 worked with the latest driver where the fake one did not.  The photo below shows WCH CH340C marking.
 >
-> <img src="/Users/donpotbury/Documents/GitHub/MakersSpace-Sonar/images/WeMos D1 Mini.png" alt="WeMos D1 Mini" style="zoom:50%;" />
+> <img src="images/WeMos D1 Mini.png" alt="WeMos D1 Mini" style="zoom:50%;" />
 >
 > ***Our solution was to purchase devices with the genuine CH340 chip.***
 
