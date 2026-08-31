@@ -52,7 +52,7 @@ https://makerworld.com/en/models/3213247-radar-sonar-emulator
 
 # Pinouts:
 
-![](images/WeMos-D1-Mini-Pinout.png)
+<img src="images/WeMos-D1-Mini-Pinout.png" style="zoom:150%;" />
 
 
 
@@ -70,13 +70,13 @@ https://makerworld.com/en/models/3213247-radar-sonar-emulator
 | ------------- | ------- | -------------------- |
 | GND           | GND     | GND (black wire)     |
 | 5v            | Vcc     | Power (red wire)     |
-| D5 (GPIO14)   |         | Signal (yellow wire) |
 | D6 (GPIO12)   | Echo    |                      |
 | D7 (GPIO13)   | Trig    |                      |
+| D5 (GPIO14)   |         | Signal (yellow wire) |
+
+<img src="images/Wiring Diagram Half Board.png" style="zoom:140%;" />
 
 
-
-##### ![](images/Wiring%20Diagram.png)
 
 
 
@@ -84,38 +84,19 @@ https://makerworld.com/en/models/3213247-radar-sonar-emulator
 
 # My Requests to Codex:
 
-Create a "Sonar Emulator" using a Wemos D1 Mini, HC-SR04, SG90 servo.
-The output should be a Python script running on my computer that resembles a radar screen.
-Serial communication shall be used between the Wemos D1 Mini and my computer.
-The python script shall identify and use the first usb port with an arduino or clone attached.
-Log all changes in a /Docs folder
+- Create a "Sonar Emulator" using a Wemos D1 Mini, HC-SR04, SG90 servo.
+  The output should be a Python script running on my computer that resembles a radar screen.
+  Serial communication shall be used between the Wemos D1 Mini and my computer.
+  The python script shall identify and use the first usb port with an arduino or clone attached.
+  Log all changes in a /Docs folder
 
 
 
-Please make SERVO_PIN = D5, ECHO_PIN = D6, TRIGGER_PIN = D7
+- Please make SERVO_PIN = D5, ECHO_PIN = D6, TRIGGER_PIN = D7
 
 
 
-I would like a vertical slider bar in the python script.  Moving it will change the maximum range and redraw the radar screen to suit
-
-
-
->   [!NOTE]
->
-> At this point I had working code but noticed readings that seemed really "noisy".  So I asked "how can I reduce the noise?"
->
-> AI's réponse was:
->
-> Assuming you mean noisy or jumping HC-SR04 distance readings, the biggest improvements are:
->
-> - Power the SG90 from a separate regulated 5 V supply, not the Wemos. Keep all grounds connected.
-> - Add a 470–1000 µF capacitor across the servo’s 5 V and GND near the servo; add a 0.1 µF capacitor near the HC-SR04.
-> - Keep the sensor and servo mechanically rigid—servo vibration can cause unstable echoes.
-> - Give the servo more time to settle before reading. In the sketch, increase `delay(35)` to around `delay(70)`.
-> - Take 3–5 readings at each angle and use the median value instead of one reading.
-> - In Python, ignore sudden distance changes beyond a chosen threshold, or smooth readings with an average.
->
-> The median-of-5 approach is usually the best first software fix because it rejects occasional bad echoes without making the display feel sluggish.
+- Please make a vertical slider bar in the python script.  Moving it will change the maximum range and redraw the radar screen to suit
 
 
 
