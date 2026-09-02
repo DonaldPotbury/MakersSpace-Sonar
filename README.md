@@ -7,8 +7,6 @@ All coding will be generated using Codex.
 ![](images/Sonar%20Emulator.png)
 
 
-![](images/Exploded%20View.mp4)
-
 
 # Software:
 
