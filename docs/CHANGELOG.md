@@ -1,5 +1,10 @@
 # Change log
 
+## 2026-09-03
+
+- Added web-server port fallback: 5000 is tried first, then 5010, 5020, and 5030 before an error is raised.
+- Added a local-network web radar for iPhone, Android, tablets, and computers while preserving the existing desktop display and USB serial reader.
+
 ## 2026-08-22
 
 - Added a vertical range slider to the Python radar display; it redraws the view for a selected 25–200 cm maximum range.

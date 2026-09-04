@@ -6,12 +6,16 @@ from __future__ import annotations
 import math
 import queue
 import re
+import socket
 import sys
 import threading
 import time
 import tkinter as tk
 from dataclasses import dataclass
 from typing import Optional
+
+from flask import Flask, jsonify, render_template
+from werkzeug.serving import make_server
 
 try:
     import serial
@@ -25,6 +29,9 @@ BAUD_RATE = 115200
 SENSOR_MAX_DISTANCE_CM = 200
 MIN_DISPLAY_RANGE_CM = 25
 DEFAULT_DISPLAY_RANGE_CM = SENSOR_MAX_DISTANCE_CM
+WEB_PORT = 5000
+WEB_PORT_INCREMENT = 10
+WEB_PORT_RETRIES = 3
 SCAN_ANGLES = range(15, 166, 2)
 RADAR_GREEN = "#38ff75"
 BACKGROUND = "#031007"
@@ -43,6 +50,102 @@ LINE_PATTERN = re.compile(r"^\s*(\d{1,3})\s*,\s*(\d{1,3})\s*$")
 class Measurement:
     angle: int
     distance_cm: int
+
+
+class RadarState:
+    """Thread-safe measurements shared by the desktop and web radar displays."""
+
+    def __init__(self) -> None:
+        self._lock = threading.Lock()
+        self._last_angle = 90
+        self._points: dict[int, int] = {}
+        self._updated_at: Optional[float] = None
+
+    def update(self, measurement: Measurement) -> None:
+        with self._lock:
+            self._last_angle = measurement.angle
+            self._points[measurement.angle] = measurement.distance_cm
+            for angle in list(self._points):
+                if abs(angle - self._last_angle) > 28:
+                    del self._points[angle]
+            self._updated_at = time.time()
+
+    def snapshot(self) -> dict[str, object]:
+        with self._lock:
+            return {
+                "angle": self._last_angle,
+                "points": [{"angle": angle, "distance_cm": distance}
+                           for angle, distance in self._points.items()],
+                "updated_at": self._updated_at,
+            }
+
+
+def create_web_app(radar_state: RadarState) -> Flask:
+    """Create a mobile-friendly web radar that reads shared serial measurements."""
+    app = Flask(__name__, template_folder="web_templates")
+
+    @app.get("/")
+    def web_radar() -> str:
+        return render_template(
+            "radar.html",
+            sensor_max_distance_cm=SENSOR_MAX_DISTANCE_CM,
+            min_display_range_cm=MIN_DISPLAY_RANGE_CM,
+        )
+
+    @app.get("/api/radar")
+    def radar_data() -> object:
+        return jsonify(radar_state.snapshot())
+
+    return app
+
+
+def get_local_address() -> str:
+    """Find the LAN address most likely to be reachable from a phone."""
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as probe:
+            probe.connect(("192.0.2.1", 80))
+            return probe.getsockname()[0]
+    except OSError:
+        return "localhost"
+
+
+def start_web_server(radar_state: RadarState) -> str:
+    """Start the web radar without blocking the desktop application.
+
+    Ports 5000, 5010, 5020, and 5030 are tried in that order.
+    """
+    app = create_web_app(radar_state)
+    server = None
+    for retry in range(WEB_PORT_RETRIES + 1):
+        port = WEB_PORT + retry * WEB_PORT_INCREMENT
+        listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        try:
+            # Bind before starting Werkzeug so a used port can be retried safely.
+            listener.bind(("0.0.0.0", port))
+            listener.listen()
+            server = make_server("0.0.0.0", port, app, threaded=True, fd=listener.fileno())
+            # Werkzeug duplicates the supplied file descriptor, so this copy is no longer needed.
+            listener.close()
+            break
+        except OSError as error:
+            listener.close()
+            if retry == WEB_PORT_RETRIES:
+                attempted_ports = ", ".join(
+                    str(WEB_PORT + offset * WEB_PORT_INCREMENT)
+                    for offset in range(WEB_PORT_RETRIES + 1)
+                )
+                raise OSError(
+                    f"Unable to start the web radar. Ports {attempted_ports} are unavailable."
+                ) from error
+
+    assert server is not None
+    thread = threading.Thread(
+        target=server.serve_forever,
+        daemon=True,
+    )
+    thread.start()
+    return f"http://{get_local_address()}:{server.server_address[1]}"
 
 
 def find_arduino_port() -> Optional[str]:
@@ -91,7 +194,7 @@ class SerialReader(threading.Thread):
 
 
 class SonarEmulator:
-    def __init__(self, root: tk.Tk, port: str):
+    def __init__(self, root: tk.Tk, port: str, radar_state: RadarState):
         self.root = root
         self.root.title("Sonar Emulator")
         self.root.configure(bg=BACKGROUND)
@@ -126,6 +229,7 @@ class SonarEmulator:
                  font=("Arial", 11)).pack(pady=(0, 10))
         self.messages: queue.Queue[Measurement | Exception] = queue.Queue()
         self.reader = SerialReader(port, self.messages)
+        self.radar_state = radar_state
         self.points: dict[int, int] = {}
         self.last_angle = 90
         self.reader.start()
@@ -181,6 +285,7 @@ class SonarEmulator:
                 for angle in list(self.points):
                     if abs(angle - self.last_angle) > 28:
                         del self.points[angle]
+                self.radar_state.update(message)
                 self.status.set(f"Connected: {self.reader.port}  |  {message.angle:3d}°  {message.distance_cm:3d} cm")
                 redraw = True
         except queue.Empty:
@@ -199,8 +304,12 @@ def main() -> None:
     if not port:
         print("No Arduino-compatible USB serial device found. Connect the Wemos D1 Mini and try again.")
         raise SystemExit(2)
+    radar_state = RadarState()
+    web_address = start_web_server(radar_state)
+    print(f"Web radar available on your local network: {web_address}")
+    print("Keep this program open while viewing the radar on a phone or tablet.")
     root = tk.Tk()
-    SonarEmulator(root, port)
+    SonarEmulator(root, port, radar_state)
     root.mainloop()
 
 

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#031007">
+  <title>Sonar Emulator</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: #031007; color: #38ff75; font-family: Arial, sans-serif; }
+    main { width: min(100%, 760px); margin: auto; padding: 16px; }
+    h1 { margin: 0 0 4px; font-size: clamp(1.25rem, 5vw, 1.75rem); letter-spacing: .06em; }
+    #status { margin: 0 0 14px; color: #89b897; font-size: .95rem; }
+    #radar { display: block; width: 100%; aspect-ratio: 1.62; background: #031007; border: 1px solid #197a3c; border-radius: 8px; }
+    .controls { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; margin-top: 16px; }
+    label { font-weight: bold; }
+    output { min-width: 4.5em; text-align: right; color: #d5ffe2; }
+    input { width: 100%; accent-color: #38ff75; }
+    .hint { color: #89b897; font-size: .8rem; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>SONAR EMULATOR</h1>
+    <p id="status">Waiting for sensor data…</p>
+    <canvas id="radar" width="760" height="470" aria-label="Live sonar radar"></canvas>
+    <div class="controls">
+      <label for="range">Maximum range</label>
+      <output id="range-value">{{ sensor_max_distance_cm }} cm</output>
+      <input id="range" type="range" min="{{ min_display_range_cm }}" max="{{ sensor_max_distance_cm }}"
+             step="5" value="{{ sensor_max_distance_cm }}">
+    </div>
+    <p class="hint">Open this address from a phone or tablet on the same Wi-Fi network.</p>
+  </main>
+  <script>
+    const canvas = document.getElementById("radar");
+    const context = canvas.getContext("2d");
+    const range = document.getElementById("range");
+    const rangeValue = document.getElementById("range-value");
+    const status = document.getElementById("status");
+    let maximumRange = Number(range.value);
+    let latest = { angle: 90, points: [], updated_at: null };
+
+    function position(angle, distance, cx, cy, radius) {
+      const radians = angle * Math.PI / 180;
+      const scale = radius / maximumRange;
+      return [cx + distance * scale * Math.cos(radians), cy - distance * scale * Math.sin(radians)];
+    }
+
+    function draw() {
+      const { width, height } = canvas;
+      const cx = width / 2;
+      const cy = height - 30;
+      const radius = Math.min(cx - 20, cy - 30);
+      context.clearRect(0, 0, width, height);
+      context.lineWidth = 1;
+      context.strokeStyle = "#197a3c";
+      context.fillStyle = "#89b897";
+      context.font = "13px Arial";
+
+      [0.25, 0.5, 0.75, 1].forEach(fraction => {
+        const r = radius * fraction;
+        context.beginPath();
+        context.arc(cx, cy, r, Math.PI, 0);
+        context.stroke();
+        context.fillText(`${Math.round(maximumRange * fraction)} cm`, cx + 8, cy - r);
+      });
+      [15, 45, 75, 90, 105, 135, 165].forEach(angle => {
+        const [x, y] = position(angle, maximumRange, cx, cy, radius);
+        context.beginPath(); context.moveTo(cx, cy); context.lineTo(x, y); context.stroke();
+      });
+      latest.points.forEach(point => {
+        if (point.distance_cm >= maximumRange) return;
+        const [x, y] = position(point.angle, point.distance_cm, cx, cy, radius);
+        context.fillStyle = "#ff5454";
+        context.beginPath(); context.arc(x, y, 5, 0, 2 * Math.PI); context.fill();
+      });
+      const [sweepX, sweepY] = position(latest.angle, maximumRange, cx, cy, radius);
+      context.strokeStyle = "#38ff75";
+      context.lineWidth = 2;
+      context.beginPath(); context.moveTo(cx, cy); context.lineTo(sweepX, sweepY); context.stroke();
+    }
+
+    async function refresh() {
+      try {
+        const response = await fetch("/api/radar", { cache: "no-store" });
+        if (!response.ok) throw new Error("Server unavailable");
+        latest = await response.json();
+        if (latest.updated_at) {
+          const active = latest.points.find(point => point.angle === latest.angle);
+          status.textContent = active
+            ? `Live: ${latest.angle}° · ${active.distance_cm} cm`
+            : `Live: ${latest.angle}°`;
+        }
+        draw();
+      } catch (_) {
+        status.textContent = "Cannot reach the radar server. Keep the Python program running.";
+      }
+    }
+
+    range.addEventListener("input", () => {
+      maximumRange = Number(range.value);
+      rangeValue.textContent = `${maximumRange} cm`;
+      draw();
+    });
+    draw();
+    refresh();
+    setInterval(refresh, 125);
+  </script>
+</body>
+</html>
