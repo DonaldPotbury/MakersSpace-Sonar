@@ -2,6 +2,7 @@
 
 ## 2026-09-14
 
+- Added ChatGPT desktop and Codex installation and project-opening instructions to the student guide.
 - Added a student guide covering construction, wiring, Arduino setup, Python setup, operation, troubleshooting, and extensions for the desktop Sonar Emulator.
 
 ## 2026-08-22
