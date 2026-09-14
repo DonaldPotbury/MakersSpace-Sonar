@@ -1,5 +1,9 @@
 # Change log
 
+## 2026-09-14
+
+- Added a student guide covering construction, wiring, Arduino setup, Python setup, operation, troubleshooting, and extensions for the desktop Sonar Emulator.
+
 ## 2026-08-22
 
 - Added a vertical range slider to the Python radar display; it redraws the view for a selected 25–200 cm maximum range.
